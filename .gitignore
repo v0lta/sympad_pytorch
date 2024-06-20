@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Compiled object files
+*.o
+*.obj
+
+# Compiled dynamic libraries
+*.so
+*.dylib
+
+# Compiled static libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+
+# Build directories
+build/
+bin/
+dist/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Dependency directories
+vendor/
+
+# test cache files
+.pytest_cache/
+.nox
+
+# egg-infos
+sympad.egg-info/
