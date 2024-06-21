@@ -15,7 +15,9 @@ def test_pad(session):
     session.install("pytest")
     session.install("torch")
     session.install("numpy")
-    session.run("python", "setup.py", "install")
+    session.install("build")
+    session.run("python", "-m", "build", "--no-isolation")
+    session.install("dist/sympad-0.0.0.tar.gz")
     session.run("pytest")
 
 
