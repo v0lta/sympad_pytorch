@@ -41,3 +41,15 @@ def test_pad_symmetric_small() -> None:
     my_pad = _pad_symmetric(torch.from_numpy(array), ((1,1), (1,1)))
     np_pad = np.pad(array, ((1,1), (1,1)), mode="symmetric")
     assert np.allclose(my_pad.numpy(), np_pad)
+
+
+@pytest.mark.parametrize("pad_list", 
+                         [((6,6), (6,6)), ((5,6), (6,5)),
+                          ((6,5), (5,6)), ((5,5), (5,5)), ((7,7), (7,7))])
+@pytest.mark.parametrize("size", [(3,3), (4,4), (2,2), (1,1), (2,1), (2,1)])
+def test_pad_symmetric_wrap(pad_list, size) -> None:
+    """Test high-dimensional symetric padding."""
+    array = np.random.randint(0, 9, size=size)
+    my_pad = _pad_symmetric(torch.from_numpy(array), pad_list)
+    np_pad = np.pad(array, pad_list, mode="symmetric")
+    assert np.allclose(my_pad.numpy(), np_pad)

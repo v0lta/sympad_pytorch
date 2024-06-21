@@ -1,6 +1,5 @@
 import nox
 
-
 @nox.session(name='test')
 def test_pad(session):
     session.install('pytest')
