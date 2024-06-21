@@ -28,7 +28,6 @@ def format(session):
     session.run("black", ".")
 
 
-
 @nox.session(name="lint")
 def lint(session):
     """Check code conventions."""
@@ -54,7 +53,4 @@ def mypy(session):
     session.install("torch")
     session.install("mypy")
 
-    session.run(
-        "mypy",
-        "--ignore-missing-imports",
-        "test")
+    session.run("mypy", "--ignore-missing-imports", "test")

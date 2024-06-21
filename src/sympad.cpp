@@ -11,38 +11,42 @@ using namespace std;
  * @param signal The input tensor to be padded.
  * @param padl The number of zeros to pad on the left side of the tensor.
  * @param padr The number of zeros to pad on the right side of the tensor.
+ * @param dim The dimension along which to pad the tensor.
+ * 
  * @return The padded tensor.
  */
-torch::Tensor _pad_symmetric_1d(torch::Tensor signal, pair<int, int> pad_tuple)
+torch::Tensor _pad_symmetric_1d(torch::Tensor signal, pair<int, int> pad_tuple, int dim)
 {   int padl = pad_tuple.first;
     int padr = pad_tuple.second;
-    int dimlen = signal.size(0);
+    int dimlen = signal.size(dim);
+    // If the padding is greater than the dimension length,
+    // pad recursively until we have enough values.
     if (padl > dimlen || padr > dimlen)
     {
         if (padl > dimlen)
         {
-            signal = _pad_symmetric_1d(signal, make_pair(dimlen, 0));
+            signal = _pad_symmetric_1d(signal, make_pair(dimlen, 0), dim);
             padl = padl - dimlen;
         }
         else
         {
-            signal = _pad_symmetric_1d(signal, make_pair(0, dimlen));
+            signal = _pad_symmetric_1d(signal, make_pair(0, dimlen), dim);
             padr = padr - dimlen;
         }
-        return _pad_symmetric_1d(signal, make_pair(padl, padr));
+        return _pad_symmetric_1d(signal, make_pair(padl, padr), dim);
     }
     else
     {
-        std::vector<torch::Tensor> cat_list = {signal};
+        vector<torch::Tensor> cat_list = {signal};
         if (padl > 0)
         {
-            cat_list.insert(cat_list.begin(), signal.index({Slice(None, padl)}).flip(0));
+            cat_list.insert(cat_list.begin(), signal.slice(dim, 0, padl).flip(dim));
         }
         if (padr > 0)
         {
-            cat_list.push_back(signal.index({Slice(-padr, None)}).flip(0));
+            cat_list.push_back(signal.slice(dim, dimlen-padr, dimlen).flip(dim));
         }
-        return torch::cat(cat_list, 0);
+        return torch::cat(cat_list, dim);
     }
 }
 
@@ -56,7 +60,7 @@ torch::Tensor _pad_symmetric_1d(torch::Tensor signal, pair<int, int> pad_tuple)
  * @return The padded signal.
  * @throws std::invalid_argument if the input signal has fewer dimensions than the specified padding dimensions.
  */
-torch::Tensor _pad_symmetric(torch::Tensor signal, vector<pair<int, int>> pad_lists)
+torch::Tensor pad_symmetric(torch::Tensor signal, vector<pair<int, int>> pad_lists)
 {
     int pad_dims = pad_lists.size();
     if (signal.dim() < pad_dims)
@@ -69,14 +73,12 @@ torch::Tensor _pad_symmetric(torch::Tensor signal, vector<pair<int, int>> pad_li
     for (int pos = 0; pos < pad_dims; pos++)
     {
         int current_axis = dims - pos;
-        signal = signal.transpose(0, current_axis);
-        signal = _pad_symmetric_1d(signal, pad_lists[pos]);
-        signal = signal.transpose(current_axis, 0);
+        signal = _pad_symmetric_1d(signal, pad_lists[pos], current_axis);
     }
     return signal;
 }
 
 PYBIND11_MODULE(sympad, m) {
-  m.def("_pad_symmetric", &_pad_symmetric, "A function that pads a tensor symmetrically");
+  m.def("pad_symmetric", &pad_symmetric, "A function that pads a tensor symmetrically");
   m.def("_pad_symmetric_1d", &_pad_symmetric_1d, "A function that pads a tensor symmetrically in 1D.");
 }
