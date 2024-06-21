@@ -1,6 +1,6 @@
 # Symmetric padding for Pytorch
 
-Welcome to the ` sympad_pytorch` repository!
+Welcome to the `sympad_pytorch` repository!
 
 ## Description
 
