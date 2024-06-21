@@ -10,8 +10,8 @@ This repository adds `symmetric` padding to PyTorch. Symmetric padding for examp
 
 Follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/cpp_pad.git`
-2. Navigate to the project directory: `cd sympad_pytorch `
+1. Clone the repository: `git clone https://github.com/your-username/cpp_pad.git`.
+2. Navigate to the project directory: `cd sympad_pytorch `.
 3. Run the tests with `nox -s test`.
 
 
