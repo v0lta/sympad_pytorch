@@ -4,7 +4,7 @@ Welcome to the ` sympad_pytorch` repository!
 
 ## Description
 
-This repository implements a `symmetric` padding extension for PyTorch. Symmetric padding for example is the default in `pywt` (https://pywavelets.readthedocs.io). Providing this functionality in PyTorch as a C++ module will allow us to speed up Wavelet computations in PyTorch.
+This repository implements a `symmetric` padding extension for PyTorch. Symmetric padding, for example, is the default in `pywt` (https://pywavelets.readthedocs.io). Providing this functionality as a C++ module in PyTorch will allow us to speed up Wavelet computations in PyTorch.
 
 ## Testing and Verification
 
