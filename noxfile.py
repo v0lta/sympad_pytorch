@@ -13,11 +13,11 @@ import nox
 @nox.session(name="test")
 def test_pad(session):
     session.install("pytest")
-    session.install("torch")
     session.install("numpy")
+    session.install("torch")
     session.install("build")
     session.run("python", "-m", "build", "--no-isolation")
-    session.install("dist/sympad-0.0.0.tar.gz")
+    session.install("dist/sympad-0.0.1.tar.gz")
     session.run("pytest")
 
 
