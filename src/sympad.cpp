@@ -5,7 +5,7 @@ using namespace torch::indexing;
 using namespace std;
 
 /**
- * Pads a 1-dimensional tensor symmetrically with zeros.
+ * Pads a 1-dimensional tensor symmetrically.
  * This is a helper function for _pad_symmetric.
  *
  * @param signal The input tensor to be padded.
